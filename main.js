@@ -44,6 +44,61 @@ function showMyPosts() {
     });
 }
 
+var postsToday = [];
+
+function showTodaysPosts(url) {
+    var date = new Date();
+    var todayStart = date.toISOString().split('T')[0];
+    if(url == undefined) {
+        url = "";
+        postsToday.length = 0;
+    }
+
+    fbService.fetchFiiobFeed(url, function(response) {
+        var posts = response.data;
+        var updatedToday = true;
+        var container = document.getElementById("feed");
+        posts.forEach(function(post, index, postList) {
+            var postObject = {};
+            if(post.message)
+                postObject.message = post.message;
+
+            if(post.picture)
+                postObject.picture = post.picture;
+
+            postObject.from = post.from;
+
+            if(post.created_time > todayStart) {
+                postsToday.push(postObject);
+                console.log(postObject.message);
+
+                var postDiv = document.createElement("div");
+                var html = "";
+                if(post.message) {
+                    html += post.message + "<br>";
+                }
+                if(post.picture) {
+                    html += '<img src="' + post.picture + '"/>';
+                }
+                postDiv.innerHTML = html + "<br>--------------------------------------------------------------------------<br><br>";
+
+                container.appendChild(postDiv);
+            }
+
+            if(post.updated_time < todayStart) {
+                updatedToday = false;
+            }
+        });
+        if(response.paging && response.paging.next && updatedToday) {
+            url = response.paging.next.split("https://graph.facebook.com/v2.1/146194088779617/feed")[1];
+            //console.log(url);
+            showTodaysPosts(url);
+        }
+    });
+}
+
+
+
 var currentFeedResponse = undefined;
 
 function showFeedWithResponse(response) {
