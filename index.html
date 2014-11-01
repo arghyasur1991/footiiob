@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>FIIOB</title>
+    <script src="main.js"></script>
+</head>
+<body>
+    <script src="fb-api.js"></script>
+    <button onclick="onLogin()">
+        Login To Fiiob
+    </button>
+
+    <button onclick="onDeauthorize()">
+        Deauthorize
+    </button>
+
+    <button onclick="onShowMembers()">
+        Show Members
+    </button>
+
+    <button onclick="showFeed()">
+        Show Feed
+    </button>
+
+    <button onclick="showTodaysPosts()">
+        Show Feed
+    </button>
+
+    <button onclick="getUserInfo()">
+        Get User Info
+    </button>
+
+    <button onclick="showMyPosts()">
+        Show My Posts
+    </button>
+
+    <div id="feed">
+
+    </div>
+
+    <button id="next" disabled="true" onclick="onNextPage()">
+        Next Page
+    </button>
+
+</body>
+</html>
